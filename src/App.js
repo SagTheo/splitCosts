@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { UserInput } from './components/UserInput';
 
 function App() {
+  const [userName, setUserName] = useState()
+  const [allUsers, setAllUsers] = useState([])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type='text' 
+             id='userName' 
+             name='userName' 
+             onChange={e => setUserName(e.target.value)}
+      >
+      </input>
+      <button onClick={() => setAllUsers([...allUsers, userName])}>Add user</button>
+
+      <div className='allUsers'>
+        {
+          allUsers.map(user => {
+            return (
+              <UserInput name={user}/>
+            )
+          })
+        }
+      </div>
     </div>
   );
 }
