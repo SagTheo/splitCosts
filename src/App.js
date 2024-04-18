@@ -3,8 +3,18 @@ import './App.css';
 import { UserInput } from './components/UserInput';
 
 function App() {
+  const [id, setId] = useState(0)
   const [userName, setUserName] = useState()
   const [allUsers, setAllUsers] = useState([])
+
+  const addUser = () => {
+    setAllUsers([...allUsers, {'id' : id, 'userName' : userName}])
+    setId(id + 1)
+  }
+
+  const removeUser = id => {
+    setAllUsers(allUsers.filter(user => user.id !== id))
+  }
 
   return (
     <div className="App">
@@ -12,15 +22,19 @@ function App() {
              id='userName' 
              name='userName' 
              onChange={e => setUserName(e.target.value)}
+             onFocus={(e) => e.target.value = ''}
       >
       </input>
-      <button onClick={() => setAllUsers([...allUsers, userName])}>Add user</button>
+      <button onClick={() => addUser()}>Add user</button>
 
       <div className='allUsers'>
         {
-          allUsers.map(user => {
+          allUsers.map((user, index) => {
             return (
-              <UserInput name={user}/>
+              <UserInput key={index}
+                         name={user.userName}
+                         removeUser={() => removeUser(user.id)}
+              />
             )
           })
         }

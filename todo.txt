@@ -1,0 +1,1 @@
+--> add format function to format username
