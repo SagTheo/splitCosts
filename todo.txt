@@ -1,1 +1,3 @@
---> add format function to format username
+- finish addExpense function
+- implement debt functionality
+        --> who owes how much to who

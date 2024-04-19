@@ -16,6 +16,10 @@ function App() {
     setAllUsers(allUsers.filter(user => user.id !== id))
   }
 
+  const addExpense = expense => {
+    console.log(expense)
+  }
+
   return (
     <div className="App">
       <input type='text' 
@@ -34,11 +38,14 @@ function App() {
               <UserInput key={index}
                          name={user.userName}
                          removeUser={() => removeUser(user.id)}
+                         addExpense={addExpense}
               />
             )
           })
         }
       </div>
+
+      <div className='debts'></div>
     </div>
   );
 }

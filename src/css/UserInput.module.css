@@ -1,5 +1,11 @@
 .container {
     display: flex;
     align-items: center;
+    padding-left: 10px;
     gap: 10px;
+    margin-bottom: 5px;
+}
+
+.add, .remove {
+    cursor: pointer;
 }
