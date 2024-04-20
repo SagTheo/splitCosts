@@ -1,3 +1,2 @@
-- finish addExpense function
 - implement debt functionality
         --> who owes how much to who

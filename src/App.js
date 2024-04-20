@@ -6,6 +6,7 @@ function App() {
   const [id, setId] = useState(0)
   const [userName, setUserName] = useState()
   const [allUsers, setAllUsers] = useState([])
+  const [allExpenses, setAllExpenses] = useState([])
 
   const addUser = () => {
     setAllUsers([...allUsers, {'id' : id, 'userName' : userName}])
@@ -16,8 +17,8 @@ function App() {
     setAllUsers(allUsers.filter(user => user.id !== id))
   }
 
-  const addExpense = expense => {
-    console.log(expense)
+  const addExpense = (name, expense) => {
+    setAllExpenses([...allExpenses, { name: name, expense: expense }])
   }
 
   return (
@@ -45,7 +46,15 @@ function App() {
         }
       </div>
 
-      <div className='debts'></div>
+      <div className='debts'>
+        {
+          allExpenses.map((expense, index) => {
+            return (
+              <p key={index}>{expense.name} paid ${expense.expense}</p>
+            )
+          })
+        }
+      </div>
     </div>
   );
 }
