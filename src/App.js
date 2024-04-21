@@ -17,8 +17,8 @@ function App() {
     setAllUsers(allUsers.filter(user => user.id !== id))
   }
 
-  const addExpense = (name, expense) => {
-    setAllExpenses([...allExpenses, { name: name, expense: expense }])
+  const addExpense = (name, expense , label) => {
+    setAllExpenses([...allExpenses, { name: name, expense: expense, label: label }])
   }
 
   return (
@@ -46,14 +46,19 @@ function App() {
         }
       </div>
 
-      <div className='debts'>
+      <div className='expenses'>
+        <p className='title'>Expenses</p>
         {
           allExpenses.map((expense, index) => {
             return (
-              <p key={index}>{expense.name} paid ${expense.expense}</p>
+              <p key={index}>{expense.name} paid ${expense.expense} for {expense.label}</p>
             )
           })
         }
+      </div>
+
+      <div className='balance'>
+        <p className='title'>Balance</p>
       </div>
     </div>
   );

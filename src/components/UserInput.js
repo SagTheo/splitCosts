@@ -3,6 +3,7 @@ import styles from '../css/UserInput.module.css'
 
 export const UserInput = ({ name, removeUser, addExpense }) => {
   const [expense, setExpense] = useState()
+  const [label, setLabel] = useState()
 
   const formatName = name => {
     return name[0].toUpperCase() + name.slice(1).toLowerCase()
@@ -12,9 +13,16 @@ export const UserInput = ({ name, removeUser, addExpense }) => {
     <div className={styles.container}>
         <span>{formatName(name)}</span>
         <input type='number' 
-               id='cost' 
-               name='cost'
+               placeholder='amount'
+               id='amount' 
+               name='amount'
                onChange={e => setExpense(e.target.value)}
+        ></input>
+        <input type='text' 
+               placeholder='label'
+               id='label' 
+               name='label'
+               onChange={e => setLabel(e.target.value)}
         ></input>
         <svg xmlns="http://www.w3.org/2000/svg" 
              width="16" 
@@ -22,7 +30,7 @@ export const UserInput = ({ name, removeUser, addExpense }) => {
              fill="green" 
              className={styles.add}
              viewBox="0 0 16 16"
-             onClick={() => addExpense(name, expense)}
+             onClick={() => addExpense(name, expense, label)}
         >
           <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
         </svg>
