@@ -1,4 +1,2 @@
-- possibility to remove an expense
-
 - implement debt functionality
         --> who owes how much to who

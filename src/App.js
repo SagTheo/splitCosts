@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import './App.css';
 import { UserInput } from './components/UserInput';
+import ExpenseItem from './components/ExpenseItem';
 
 function App() {
-  const [id, setId] = useState(0)
+  const [userId, setUserId] = useState(0)
+  const [expenseId, setExpenseId] = useState(0)
   const [userName, setUserName] = useState()
   const [allUsers, setAllUsers] = useState([])
   const [allExpenses, setAllExpenses] = useState([])
 
   const addUser = () => {
-    setAllUsers([...allUsers, {'id' : id, 'userName' : userName}])
-    setId(id + 1)
+    setAllUsers([...allUsers, {'id' : userId, 'userName' : userName}])
+    setUserId(userId + 1)
   }
 
   const removeUser = id => {
@@ -18,7 +20,12 @@ function App() {
   }
 
   const addExpense = (name, expense , label) => {
-    setAllExpenses([...allExpenses, { name: name, expense: expense, label: label }])
+    setAllExpenses([...allExpenses, { id: expenseId, name: name, expense: expense, label: label }])
+    setExpenseId(expenseId + 1)
+  }
+
+  const deleteExpense = id => {
+    setAllExpenses(allExpenses.filter(expense => expense.id !== id))
   }
 
   return (
@@ -51,7 +58,10 @@ function App() {
         {
           allExpenses.map((expense, index) => {
             return (
-              <p key={index}>{expense.name} paid ${expense.expense} for {expense.label}</p>
+              <ExpenseItem key={index}
+                           expense={expense}
+                           deleteExpense={() => deleteExpense(expense.id)}
+              />
             )
           })
         }
