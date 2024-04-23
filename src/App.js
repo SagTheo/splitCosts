@@ -2,13 +2,16 @@ import { useState } from 'react';
 import './App.css';
 import { UserInput } from './components/UserInput';
 import ExpenseItem from './components/ExpenseItem';
+import DebtItem from './components/DebtItem';
 
 function App() {
   const [userId, setUserId] = useState(0)
   const [expenseId, setExpenseId] = useState(0)
+  const [debtId, setDebtId] = useState(0)
   const [userName, setUserName] = useState()
   const [allUsers, setAllUsers] = useState([])
   const [allExpenses, setAllExpenses] = useState([])
+  const [allDebts, setAllDebts] = useState([])
 
   const addUser = () => {
     setAllUsers([...allUsers, {'id' : userId, 'userName' : userName}])
@@ -20,8 +23,21 @@ function App() {
   }
 
   const addExpense = (name, expense , label) => {
+    const nbUsers = allUsers.length
+    const debt = expense / nbUsers
+    const owes = []
+
+    allUsers.forEach(user => {
+      if (user.userName !== name) {
+        owes.push(user.userName)
+      }
+    })
+
     setAllExpenses([...allExpenses, { id: expenseId, name: name, expense: expense, label: label }])
     setExpenseId(expenseId + 1)
+
+    setAllDebts([...allDebts, { id: debtId, owes: owes, gets: name, debt: debt }])
+    setDebtId(debtId + 1)
   }
 
   const deleteExpense = id => {
@@ -69,6 +85,18 @@ function App() {
 
       <div className='balance'>
         <p className='title'>Balance</p>
+
+        {
+          allDebts.map((debt, index) => {
+            return (
+              <DebtItem key={index}
+                        owes={debt.owes}
+                        gets={debt.gets}
+                        debt={debt.debt}
+              />
+            )
+          })
+        }
       </div>
     </div>
   );

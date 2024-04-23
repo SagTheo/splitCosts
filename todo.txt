@@ -1,2 +1,4 @@
 - implement debt functionality
         --> who owes how much to who
+        -> possibility to remove debt (through removeExpense function?)
+        -> take care of decimal numbers 
