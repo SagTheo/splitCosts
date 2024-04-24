@@ -2,3 +2,7 @@
         --> who owes how much to who
         -> possibility to remove debt (through removeExpense function?)
         -> take care of decimal numbers 
+
+
+- implement total expenses (global + individually)
+        --> individual total must be updated when expense is removed

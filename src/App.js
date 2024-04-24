@@ -3,6 +3,7 @@ import './App.css';
 import { UserInput } from './components/UserInput';
 import ExpenseItem from './components/ExpenseItem';
 import DebtItem from './components/DebtItem';
+import UserTotalExpenses from './components/UserTotalExpenses';
 
 function App() {
   const [userId, setUserId] = useState(0)
@@ -12,9 +13,10 @@ function App() {
   const [allUsers, setAllUsers] = useState([])
   const [allExpenses, setAllExpenses] = useState([])
   const [allDebts, setAllDebts] = useState([])
+  const [total, setTotal] = useState(0)
 
   const addUser = () => {
-    setAllUsers([...allUsers, {'id' : userId, 'userName' : userName}])
+    setAllUsers([...allUsers, {'id' : userId, 'userName' : userName, 'totalExpenses': 0}])
     setUserId(userId + 1)
   }
 
@@ -22,10 +24,15 @@ function App() {
     setAllUsers(allUsers.filter(user => user.id !== id))
   }
 
-  const addExpense = (name, expense , label) => {
+  const addExpense = (name, id, expense , label) => {
     const nbUsers = allUsers.length
     const debt = expense / nbUsers
     const owes = []
+    const user = allUsers.filter(user => user.id === id)
+
+    user[0]['totalExpenses'] += Number(expense)
+
+    setTotal(Number(expense) + total)
 
     allUsers.forEach(user => {
       if (user.userName !== name) {
@@ -41,6 +48,11 @@ function App() {
   }
 
   const deleteExpense = id => {
+    const expenseToRemove = allExpenses.filter(expense => expense.id === id)
+    const toTakeAway = expenseToRemove[0]['expense']
+    
+    setTotal(total - Number(toTakeAway))
+
     setAllExpenses(allExpenses.filter(expense => expense.id !== id))
   }
 
@@ -61,6 +73,7 @@ function App() {
             return (
               <UserInput key={index}
                          name={user.userName}
+                         id={user.id}
                          removeUser={() => removeUser(user.id)}
                          addExpense={addExpense}
               />
@@ -81,12 +94,24 @@ function App() {
             )
           })
         }
+        
+        <span>Total: ${total}</span>
+
+        {
+          allUsers.map((user, index) => {
+            return (
+              <UserTotalExpenses key={index}
+                                 userName={user.userName}
+                                 totalExpenses={user.totalExpenses}
+              />
+            )
+          })
+        }
       </div>
 
       <div className='balance'>
         <p className='title'>Balance</p>
-
-        {
+        {/* {
           allDebts.map((debt, index) => {
             return (
               <DebtItem key={index}
@@ -96,7 +121,7 @@ function App() {
               />
             )
           })
-        }
+        } */}
       </div>
     </div>
   );
