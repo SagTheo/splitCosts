@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import styles from '../css/UserInput.module.css'
+import { formatName } from '../functions'
 
 export const UserInput = ({ name, id, removeUser, addExpense }) => {
   const [expense, setExpense] = useState()
   const [label, setLabel] = useState()
-
-  const formatName = name => {
-    return name[0].toUpperCase() + name.slice(1).toLowerCase()
-  }
 
   return (
     <div className={styles.container}>

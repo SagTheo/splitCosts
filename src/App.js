@@ -40,20 +40,20 @@ function App() {
       }
     })
 
-    setAllExpenses([...allExpenses, { id: expenseId, name: name, expense: expense, label: label }])
+    setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
     setExpenseId(expenseId + 1)
 
     setAllDebts([...allDebts, { id: debtId, owes: owes, gets: name, debt: debt }])
     setDebtId(debtId + 1)
   }
 
-  const deleteExpense = id => {
-    const expenseToRemove = allExpenses.filter(expense => expense.id === id)
-    const toTakeAway = expenseToRemove[0]['expense']
-    
+  const deleteExpense = (expenseId, userId, toTakeAway) => {
+    const userTotalToUpdate = allUsers.filter(user => user.id === userId)
+
+    userTotalToUpdate[0]['totalExpenses'] -= toTakeAway
     setTotal(total - Number(toTakeAway))
 
-    setAllExpenses(allExpenses.filter(expense => expense.id !== id))
+    setAllExpenses(allExpenses.filter(expense => expense.id !== expenseId))
   }
 
   return (
@@ -89,20 +89,22 @@ function App() {
             return (
               <ExpenseItem key={index}
                            expense={expense}
-                           deleteExpense={() => deleteExpense(expense.id)}
+                           deleteExpense={() => deleteExpense(expense.id, expense.userId, expense.expense)}
               />
             )
           })
         }
+      </div>
         
-        <span>Total: ${total}</span>
+      <span>Total: ${total}</span>
 
+      <div className='total'>
         {
           allUsers.map((user, index) => {
             return (
               <UserTotalExpenses key={index}
-                                 userName={user.userName}
-                                 totalExpenses={user.totalExpenses}
+                                  userName={user.userName}
+                                  totalExpenses={user.totalExpenses}
               />
             )
           })

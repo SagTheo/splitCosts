@@ -1,9 +1,10 @@
 import React from 'react'
+import { formatName } from '../functions'
 
 const UserTotalExpenses = ({ userName, totalExpenses}) => {
   return (
     <div>
-        {userName} : ${totalExpenses}
+        {formatName(userName)} : ${totalExpenses}
     </div>
   )
 }

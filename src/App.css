@@ -6,3 +6,13 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.total {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.expenses {
+  margin-bottom: 20px;
+}
