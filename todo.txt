@@ -2,3 +2,8 @@
         --> who owes how much to who
         -> possibility to remove debt (through removeExpense function?)
         -> take care of decimal numbers 
+
+
+- implement control on amount input (make sure it can only accept numbers)
+
+- allDebts: remove user from allDebts when removed from the list

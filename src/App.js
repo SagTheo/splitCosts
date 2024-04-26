@@ -1,23 +1,30 @@
 import { useState } from 'react';
 import './App.css';
 import { UserInput } from './components/UserInput';
-import ExpenseItem from './components/ExpenseItem';
-import DebtItem from './components/DebtItem';
+import ExpenseItem from './components/ExpenseItem'; 
 import UserTotalExpenses from './components/UserTotalExpenses';
 
 function App() {
   const [userId, setUserId] = useState(0)
   const [expenseId, setExpenseId] = useState(0)
-  const [debtId, setDebtId] = useState(0)
   const [userName, setUserName] = useState()
   const [allUsers, setAllUsers] = useState([])
   const [allExpenses, setAllExpenses] = useState([])
-  const [allDebts, setAllDebts] = useState([])
   const [total, setTotal] = useState(0)
+  const [addUserDisabled, setAddUserDisabled] = useState(false)
+  const [allDebts, setAllDebts] = useState([])
 
   const addUser = () => {
     setAllUsers([...allUsers, {'id' : userId, 'userName' : userName, 'totalExpenses': 0}])
     setUserId(userId + 1)
+
+    setAllDebts([...allDebts, { user: userName }])
+  }
+
+  const confirmGroup = () => {
+    setAddUserDisabled(true)
+
+    console.log(allDebts)
   }
 
   const removeUser = id => {
@@ -25,26 +32,14 @@ function App() {
   }
 
   const addExpense = (name, id, expense , label) => {
-    const nbUsers = allUsers.length
-    const debt = expense / nbUsers
-    const owes = []
     const user = allUsers.filter(user => user.id === id)
 
     user[0]['totalExpenses'] += Number(expense)
 
     setTotal(Number(expense) + total)
 
-    allUsers.forEach(user => {
-      if (user.userName !== name) {
-        owes.push(user.userName)
-      }
-    })
-
     setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
     setExpenseId(expenseId + 1)
-
-    setAllDebts([...allDebts, { id: debtId, owes: owes, gets: name, debt: debt }])
-    setDebtId(debtId + 1)
   }
 
   const deleteExpense = (expenseId, userId, toTakeAway) => {
@@ -65,7 +60,8 @@ function App() {
              onFocus={(e) => e.target.value = ''}
       >
       </input>
-      <button onClick={() => addUser()}>Add user</button>
+      <button disabled={addUserDisabled} onClick={() => addUser()}>Add user</button>
+      <button onClick={() => confirmGroup()}>Confirm group</button>
 
       <div className='allUsers'>
         {
@@ -113,17 +109,6 @@ function App() {
 
       <div className='balance'>
         <p className='title'>Balance</p>
-        {/* {
-          allDebts.map((debt, index) => {
-            return (
-              <DebtItem key={index}
-                        owes={debt.owes}
-                        gets={debt.gets}
-                        debt={debt.debt}
-              />
-            )
-          })
-        } */}
       </div>
     </div>
   );
