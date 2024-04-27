@@ -18,11 +18,19 @@ function App() {
     setAllUsers([...allUsers, {'id': userId, 'userName': userName, 'totalExpenses': 0}])
     setUserId(userId + 1)
 
-    setAllDebts([...allDebts, { 'id': userId, 'user': userName }])
+    setAllDebts([...allDebts, { 'id': userId, 'userName': userName, 'owes': [] }])
   }
 
   const confirmGroup = () => {
     setAddUserDisabled(true)
+
+    allDebts.forEach(debt => {
+      const temp = allDebts.filter(el => el.id !== debt.id)
+
+      temp.forEach(el => {
+        debt.owes.push({ 'to': el.userName, 'amount': 0 })
+      })
+    })
 
     console.log(allDebts)
   }
