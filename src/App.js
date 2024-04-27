@@ -11,7 +11,7 @@ function App() {
   const [allUsers, setAllUsers] = useState([])
   const [allExpenses, setAllExpenses] = useState([])
   const [total, setTotal] = useState(0)
-  const [addUserDisabled, setAddUserDisabled] = useState(false)
+  const [disableButton, setDisableButton] = useState(false)
   const [allDebts, setAllDebts] = useState([])
 
   const addUser = () => {
@@ -22,17 +22,15 @@ function App() {
   }
 
   const confirmGroup = () => {
-    setAddUserDisabled(true)
+    setDisableButton(true)
 
     allDebts.forEach(debt => {
       const temp = allDebts.filter(el => el.id !== debt.id)
 
       temp.forEach(el => {
-        debt.owes.push({ 'to': el.userName, 'amount': 0 })
+        debt.owes.push({ 'id': el.id, 'to': el.userName, 'amount': 0 })
       })
     })
-
-    console.log(allDebts)
   }
 
   const removeUser = id => {
@@ -41,11 +39,25 @@ function App() {
   }
 
   const addExpense = (name, id, expense , label) => {
+    const expenseSplit = expense / allUsers.length
     const user = allUsers.filter(user => user.id === id)
 
+    // Set global + individual totals
     user[0]['totalExpenses'] += Number(expense)
-
     setTotal(Number(expense) + total)
+
+    // Set debt for each user
+    allDebts.forEach(debt => {
+      if (debt.id !== id) {
+        debt.owes.forEach(el => {
+          if (el.id === id) {
+            el.amount += Number(expenseSplit)
+          }
+        })
+      }
+    })
+
+    console.log(allDebts)
 
     setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
     setExpenseId(expenseId + 1)
@@ -69,8 +81,8 @@ function App() {
              onFocus={(e) => e.target.value = ''}
       >
       </input>
-      <button disabled={addUserDisabled} onClick={() => addUser()}>Add user</button>
-      <button onClick={() => confirmGroup()}>Confirm group</button>
+      <button disabled={disableButton} onClick={() => addUser()}>Add user</button>
+      <button disabled={disableButton} onClick={() => confirmGroup()}>Confirm group</button>
 
       <div className='allUsers'>
         {
