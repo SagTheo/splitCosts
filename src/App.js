@@ -15,10 +15,10 @@ function App() {
   const [allDebts, setAllDebts] = useState([])
 
   const addUser = () => {
-    setAllUsers([...allUsers, {'id' : userId, 'userName' : userName, 'totalExpenses': 0}])
+    setAllUsers([...allUsers, {'id': userId, 'userName': userName, 'totalExpenses': 0}])
     setUserId(userId + 1)
 
-    setAllDebts([...allDebts, { user: userName }])
+    setAllDebts([...allDebts, { 'id': userId, 'user': userName }])
   }
 
   const confirmGroup = () => {
@@ -29,6 +29,7 @@ function App() {
 
   const removeUser = id => {
     setAllUsers(allUsers.filter(user => user.id !== id))
+    setAllDebts(allDebts.filter(debt => debt.id !== id))
   }
 
   const addExpense = (name, id, expense , label) => {

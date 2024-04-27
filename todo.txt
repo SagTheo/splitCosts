@@ -5,5 +5,3 @@
 
 
 - implement control on amount input (make sure it can only accept numbers)
-
-- allDebts: remove user from allDebts when removed from the list
