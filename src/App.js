@@ -39,7 +39,7 @@ function App() {
   }
 
   const addExpense = (name, id, expense , label) => {
-    const expenseSplit = expense / allUsers.length
+    const expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
     const user = allUsers.filter(user => user.id === id)
 
     // Set global + individual totals
