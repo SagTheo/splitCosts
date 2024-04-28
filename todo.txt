@@ -1,6 +1,7 @@
 - implement debt functionality
         --> who owes how much to who
         -> possibility to remove debt (through removeExpense function?)
+                --> update user debt as a result
 
 
 - implement control on amount input (make sure it can only accept numbers)

@@ -3,6 +3,7 @@ import './App.css';
 import { UserInput } from './components/UserInput';
 import ExpenseItem from './components/ExpenseItem'; 
 import UserTotalExpenses from './components/UserTotalExpenses';
+import DebtItem from './components/DebtItem';
 
 function App() {
   const [userId, setUserId] = useState(0)
@@ -57,8 +58,6 @@ function App() {
       }
     })
 
-    console.log(allDebts)
-
     setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
     setExpenseId(expenseId + 1)
   }
@@ -66,8 +65,11 @@ function App() {
   const deleteExpense = (expenseId, userId, toTakeAway) => {
     const userTotalToUpdate = allUsers.filter(user => user.id === userId)
 
+    // Set global + individual totals
     userTotalToUpdate[0]['totalExpenses'] -= toTakeAway
     setTotal(total - Number(toTakeAway))
+
+    // Update debt for each user
 
     setAllExpenses(allExpenses.filter(expense => expense.id !== expenseId))
   }
@@ -130,6 +132,16 @@ function App() {
 
       <div className='balance'>
         <p className='title'>Balance</p>
+        {
+          allDebts.map((debt, index) => {
+            return (
+              <DebtItem key={index}
+                        userInDebt={debt.userName}
+                        owes={debt.owes} 
+              />  
+            )
+          })
+        }
       </div>
     </div>
   );
