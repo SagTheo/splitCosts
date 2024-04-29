@@ -14,6 +14,7 @@ function App() {
   const [total, setTotal] = useState(0)
   const [disableButton, setDisableButton] = useState(false)
   const [allDebts, setAllDebts] = useState([])
+  const [toggleIcons, setToggleIcons] = useState(true)
 
   const addUser = () => {
     setAllUsers([...allUsers, {'id': userId, 'userName': userName, 'totalExpenses': 0}])
@@ -24,6 +25,7 @@ function App() {
 
   const confirmGroup = () => {
     setDisableButton(true)
+    setToggleIcons(false)
 
     allDebts.forEach(debt => {
       const temp = allDebts.filter(el => el.id !== debt.id)
@@ -102,6 +104,7 @@ function App() {
                          id={user.id}
                          removeUser={() => removeUser(user.id)}
                          addExpense={addExpense}
+                         toggleIcons={toggleIcons}
               />
             )
           })

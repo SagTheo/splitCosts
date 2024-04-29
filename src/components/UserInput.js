@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from '../css/UserInput.module.css'
 import { formatName } from '../functions'
 
-export const UserInput = ({ name, id, removeUser, addExpense }) => {
+export const UserInput = ({ name, id, removeUser, addExpense, toggleIcons }) => {
   const [expense, setExpense] = useState()
   const [label, setLabel] = useState()
 
@@ -25,7 +25,7 @@ export const UserInput = ({ name, id, removeUser, addExpense }) => {
              width="16" 
              height="16" 
              fill="green" 
-             className={styles.add}
+             className={`${styles.add} ${toggleIcons ? styles.hide : styles.show}`}
              viewBox="0 0 16 16"
              onClick={() => addExpense(name, id, expense, label)}
         >
@@ -35,7 +35,7 @@ export const UserInput = ({ name, id, removeUser, addExpense }) => {
              width="16" 
              height="16" 
              fill="red" 
-             className={styles.remove} 
+             className={`${styles.remove} ${toggleIcons ? styles.show : styles.hide}`} 
              viewBox="0 0 16 16"
              onClick={removeUser}
         >
