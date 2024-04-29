@@ -64,13 +64,20 @@ function App() {
 
   const deleteExpense = (expenseId, userId, toTakeAway) => {
     const userTotalToUpdate = allUsers.filter(user => user.id === userId)
+    const debtToTateAway = Math.trunc((toTakeAway / allUsers.length) * 100) / 100
 
     // Set global + individual totals
     userTotalToUpdate[0]['totalExpenses'] -= toTakeAway
     setTotal(total - Number(toTakeAway))
 
     // Update debt for each user
+    allDebts.forEach(debt => {
+      if (debt.id !== userId) {
+        const debtToUpdate = debt.owes.filter(el => el.id === userId)
 
+        debtToUpdate[0].amount -= debtToTateAway 
+      }
+    })
     setAllExpenses(allExpenses.filter(expense => expense.id !== expenseId))
   }
 
