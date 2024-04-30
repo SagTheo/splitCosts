@@ -2,3 +2,8 @@
         --> who owes how much to who
                 --> implement more advanced update functionality 
                     (if user already owes another one, take that into account when updating the debt)
+
+
+--> control on amount input: amount has to be > 0
+
+--> handle decimal numbers in DebtItem -> write formatNumber function in functions.js
