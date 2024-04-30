@@ -42,26 +42,34 @@ function App() {
   }
 
   const addExpense = (name, id, expense , label) => {
-    const expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
-    const user = allUsers.filter(user => user.id === id)
+    const regex = /\d/
 
-    // Set global + individual totals
-    user[0]['totalExpenses'] += Number(expense)
-    setTotal(Number(expense) + total)
+    if (!regex.test(expense)) {
+      alert('Expense must be a number')
+    } else if (label === undefined) {
+      alert('You must enter a label')
+    } else {
+      const expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
+      const user = allUsers.filter(user => user.id === id)
 
-    // Set debt for each user
-    allDebts.forEach(debt => {
-      if (debt.id !== id) {
-        debt.owes.forEach(el => {
-          if (el.id === id) {
-            el.amount += Number(expenseSplit)
-          }
-        })
-      }
-    })
+      // Set global + individual totals
+      user[0]['totalExpenses'] += Number(expense)
+      setTotal(Number(expense) + total)
 
-    setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
-    setExpenseId(expenseId + 1)
+      // Set debt for each user
+      allDebts.forEach(debt => {
+        if (debt.id !== id) {
+          debt.owes.forEach(el => {
+            if (el.id === id) {
+              el.amount += Number(expenseSplit)
+            }
+          })
+        }
+      })
+
+      setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
+      setExpenseId(expenseId + 1)  
+    }
   }
 
   const deleteExpense = (expenseId, userId, toTakeAway) => {

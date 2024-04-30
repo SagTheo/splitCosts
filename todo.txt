@@ -1,5 +1,2 @@
 - implement debt functionality
         --> who owes how much to who
-
-
-- implement control on amount input (make sure it can only accept numbers)
