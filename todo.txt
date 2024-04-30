@@ -1,2 +1,4 @@
 - implement debt functionality
         --> who owes how much to who
+                --> implement more advanced update functionality 
+                    (if user already owes another one, take that into account when updating the debt)

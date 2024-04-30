@@ -49,7 +49,7 @@ function App() {
     } else if (label === undefined) {
       alert('You must enter a label')
     } else {
-      const expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
+      let expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
       const user = allUsers.filter(user => user.id === id)
 
       // Set global + individual totals
@@ -57,11 +57,27 @@ function App() {
       setTotal(Number(expense) + total)
 
       // Set debt for each user
+      const currUserDebt = allDebts.filter(debt => debt.id === id)[0]
+
       allDebts.forEach(debt => {
         if (debt.id !== id) {
+          let currUserDebtAmount = currUserDebt.owes.filter(el => el.id === debt.id)[0]
+
+          // needs more work
           debt.owes.forEach(el => {
             if (el.id === id) {
-              el.amount += Number(expenseSplit)
+              if (currUserDebtAmount.amount > expenseSplit) {
+                currUserDebtAmount.amount -= expenseSplit
+                expenseSplit = 0
+              } else if (currUserDebtAmount.amount < expenseSplit) {
+                expenseSplit -= currUserDebtAmount.amount
+                currUserDebtAmount.amount = 0
+              } else {
+                currUserDebtAmount.amount = 0
+                expenseSplit = 0
+              }
+
+              el.amount += expenseSplit
             }
           })
         }
@@ -88,6 +104,7 @@ function App() {
         debtToUpdate[0].amount -= debtToTateAway 
       }
     })
+
     setAllExpenses(allExpenses.filter(expense => expense.id !== expenseId))
   }
 
