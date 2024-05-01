@@ -67,21 +67,22 @@ function App() {
         if (debt.id !== id) {
           let currUserDebtAmount = currUserDebt.owes.filter(el => el.id === debt.id)[0]
 
-          // needs more work
           debt.owes.forEach(el => {
             if (el.id === id) {
-              // if (currUserDebtAmount.amount > expenseSplit) {
-              //   currUserDebtAmount.amount -= expenseSplit
-              //   expenseSplit = 0
-              // } else if (currUserDebtAmount.amount < expenseSplit) {
-              //   expenseSplit -= currUserDebtAmount.amount
-              //   currUserDebtAmount.amount = 0
-              // } else {
-              //   currUserDebtAmount.amount = 0
-              //   expenseSplit = 0
-              // }
+              let expenseSplitCopy = expenseSplit
 
-              el.amount += expenseSplit
+              if (currUserDebtAmount.amount > expenseSplit) {
+                currUserDebtAmount.amount -= expenseSplit
+                expenseSplitCopy = 0
+              } else if (currUserDebtAmount.amount < expenseSplit) {
+                expenseSplitCopy -= currUserDebtAmount.amount
+                currUserDebtAmount.amount = 0
+              } else {
+                currUserDebtAmount.amount = 0
+                expenseSplitCopy = 0
+              }
+
+              el.amount += expenseSplitCopy
             }
           })
         }
