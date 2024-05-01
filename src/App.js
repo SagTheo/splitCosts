@@ -4,6 +4,7 @@ import { UserInput } from './components/UserInput';
 import ExpenseItem from './components/ExpenseItem'; 
 import UserTotalExpenses from './components/UserTotalExpenses';
 import DebtItem from './components/DebtItem';
+import { formatNumber } from './functions';
 
 function App() {
   const [userId, setUserId] = useState(0)
@@ -42,18 +43,21 @@ function App() {
   }
 
   const addExpense = (name, id, expense , label) => {
-    const regex = /\d/
+    const regexAmount = /\d/
+    const regexLabel = /\w+/
 
-    if (!regex.test(expense)) {
+    if (!regexAmount.test(expense)) {
       alert('Expense must be a number')
-    } else if (label === undefined) {
+    } else if (Number(expense) <= 0) {
+      alert('Expense must be superior to 0')
+    } else if (!regexLabel.test(label) || label === undefined) {
       alert('You must enter a label')
     } else {
-      let expenseSplit = Math.trunc((expense / allUsers.length) * 100) / 100
-      const user = allUsers.filter(user => user.id === id)
+      let expenseSplit = formatNumber(expense, allUsers.length)
+      const user = allUsers.filter(user => user.id === id)[0]
 
       // Set global + individual totals
-      user[0]['totalExpenses'] += Number(expense)
+      user['totalExpenses'] += Number(expense)
       setTotal(Number(expense) + total)
 
       // Set debt for each user
@@ -66,16 +70,16 @@ function App() {
           // needs more work
           debt.owes.forEach(el => {
             if (el.id === id) {
-              if (currUserDebtAmount.amount > expenseSplit) {
-                currUserDebtAmount.amount -= expenseSplit
-                expenseSplit = 0
-              } else if (currUserDebtAmount.amount < expenseSplit) {
-                expenseSplit -= currUserDebtAmount.amount
-                currUserDebtAmount.amount = 0
-              } else {
-                currUserDebtAmount.amount = 0
-                expenseSplit = 0
-              }
+              // if (currUserDebtAmount.amount > expenseSplit) {
+              //   currUserDebtAmount.amount -= expenseSplit
+              //   expenseSplit = 0
+              // } else if (currUserDebtAmount.amount < expenseSplit) {
+              //   expenseSplit -= currUserDebtAmount.amount
+              //   currUserDebtAmount.amount = 0
+              // } else {
+              //   currUserDebtAmount.amount = 0
+              //   expenseSplit = 0
+              // }
 
               el.amount += expenseSplit
             }
@@ -90,7 +94,7 @@ function App() {
 
   const deleteExpense = (expenseId, userId, toTakeAway) => {
     const userTotalToUpdate = allUsers.filter(user => user.id === userId)
-    const debtToTateAway = Math.trunc((toTakeAway / allUsers.length) * 100) / 100
+    const debtToTakeAway = formatNumber(toTakeAway, allUsers.length)
 
     // Set global + individual totals
     userTotalToUpdate[0]['totalExpenses'] -= toTakeAway
@@ -101,7 +105,7 @@ function App() {
       if (debt.id !== userId) {
         const debtToUpdate = debt.owes.filter(el => el.id === userId)
 
-        debtToUpdate[0].amount -= debtToTateAway 
+        debtToUpdate[0].amount -= debtToTakeAway 
       }
     })
 
