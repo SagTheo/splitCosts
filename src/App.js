@@ -53,7 +53,7 @@ function App() {
     } else if (!regexLabel.test(label) || label === undefined) {
       alert('You must enter a label')
     } else {
-      let expenseSplit = formatNumber(expense, allUsers.length)
+      // let expenseSplit = formatNumber(expense, allUsers.length)
       const user = allUsers.filter(user => user.id === id)[0]
 
       // Set global + individual totals
@@ -61,32 +61,34 @@ function App() {
       setTotal(Number(expense) + total)
 
       // Set debt for each user
-      const currUserDebt = allDebts.filter(debt => debt.id === id)[0]
 
-      allDebts.forEach(debt => {
-        if (debt.id !== id) {
-          let currUserDebtAmount = currUserDebt.owes.filter(el => el.id === debt.id)[0]
+      
+      // const currUserDebt = allDebts.filter(debt => debt.id === id)[0]
 
-          debt.owes.forEach(el => {
-            if (el.id === id) {
-              let expenseSplitCopy = expenseSplit
+      // allDebts.forEach(debt => {
+      //   if (debt.id !== id) {
+      //     let currUserDebtAmount = currUserDebt.owes.filter(el => el.id === debt.id)[0]
 
-              if (currUserDebtAmount.amount > expenseSplit) {
-                currUserDebtAmount.amount -= expenseSplit
-                expenseSplitCopy = 0
-              } else if (currUserDebtAmount.amount < expenseSplit) {
-                expenseSplitCopy -= currUserDebtAmount.amount
-                currUserDebtAmount.amount = 0
-              } else {
-                currUserDebtAmount.amount = 0
-                expenseSplitCopy = 0
-              }
+      //     debt.owes.forEach(el => {
+      //       if (el.id === id) {
+      //         let expenseSplitCopy = expenseSplit
 
-              el.amount += expenseSplitCopy
-            }
-          })
-        }
-      })
+      //         if (currUserDebtAmount.amount > expenseSplit) {
+      //           currUserDebtAmount.amount -= expenseSplit
+      //           expenseSplitCopy = 0
+      //         } else if (currUserDebtAmount.amount < expenseSplit) {
+      //           expenseSplitCopy -= currUserDebtAmount.amount
+      //           currUserDebtAmount.amount = 0
+      //         } else {
+      //           currUserDebtAmount.amount = 0
+      //           expenseSplitCopy = 0
+      //         }
+
+      //         el.amount += expenseSplitCopy
+      //       }
+      //     })
+      //   }
+      // })
 
       setAllExpenses([...allExpenses, { id: expenseId, userId: id, name: name, expense: expense, label: label }])
       setExpenseId(expenseId + 1)  
@@ -94,21 +96,23 @@ function App() {
   }
 
   const deleteExpense = (expenseId, userId, toTakeAway) => {
-    const userTotalToUpdate = allUsers.filter(user => user.id === userId)
-    const debtToTakeAway = formatNumber(toTakeAway, allUsers.length)
+    const userTotalToUpdate = allUsers.filter(user => user.id === userId)[0]
+    // const debtToTakeAway = formatNumber(toTakeAway, allUsers.length)
 
     // Set global + individual totals
-    userTotalToUpdate[0]['totalExpenses'] -= toTakeAway
+    userTotalToUpdate['totalExpenses'] -= toTakeAway
     setTotal(total - Number(toTakeAway))
 
     // Update debt for each user
-    allDebts.forEach(debt => {
-      if (debt.id !== userId) {
-        const debtToUpdate = debt.owes.filter(el => el.id === userId)
 
-        debtToUpdate[0].amount -= debtToTakeAway 
-      }
-    })
+
+    // allDebts.forEach(debt => {
+    //   if (debt.id !== userId) {
+    //     const debtToUpdate = debt.owes.filter(el => el.id === userId)
+
+    //     debtToUpdate[0].amount -= debtToTakeAway 
+    //   }
+    // })
 
     setAllExpenses(allExpenses.filter(expense => expense.id !== expenseId))
   }
