@@ -1,9 +1,1 @@
-- implement debt functionality
-        --> who owes how much to who
-                --> implement more advanced update functionality 
-                    (if user already owes another one, take that into account when updating the debt)
-                        --> needs more work: bug when removing an expense
-                            --> use individual totals to figure out who owes what to who
-                                    -> function should be fired everytime an expense is added or removed
-
 --> amount input: format to a proper number (if user adds a 0 at the beginning for example)
