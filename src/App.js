@@ -62,10 +62,10 @@ function App() {
               const totalUser2ExpensesSplit = formatNumber(user2.totalExpenses, allUsers.length)
 
               if (totalUser1ExpensesSplit > totalUser2ExpensesSplit) {
-                user2DebtToUser1.amount = totalUser1ExpensesSplit - totalUser2ExpensesSplit
+                user2DebtToUser1.amount = formatNumber(totalUser1ExpensesSplit - totalUser2ExpensesSplit)
                 user1DebtToUser2.amount = 0
               } else if (totalUser1ExpensesSplit < totalUser2ExpensesSplit) {
-                user1DebtToUser2.amount = totalUser2ExpensesSplit - totalUser1ExpensesSplit
+                user1DebtToUser2.amount = formatNumber(totalUser2ExpensesSplit - totalUser1ExpensesSplit)
                 user2DebtToUser1.amount = 0
               } else {
                 user1DebtToUser2.amount = 0
@@ -83,10 +83,13 @@ function App() {
 
   const addExpense = (name, id, expense , label) => {
     const regexAmount = /\d/
+    const regexAmountStart = /^0/
     const regexLabel = /\w+/
 
     if (!regexAmount.test(expense)) {
       alert('Expense must be a number')
+    } else if (regexAmountStart.test(expense)) {
+      alert('Expense amount can not start with a zero')
     } else if (Number(expense) <= 0) {
       alert('Expense must be superior to 0')
     } else if (!regexLabel.test(label) || label === undefined) {

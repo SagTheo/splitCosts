@@ -1,1 +1,7 @@
---> amount input: format to a proper number (if user adds a 0 at the beginning for example)
+--> improve styles
+    -> placing of debt items
+    -> when too many expense items, trigger a scroll
+
+
+--> improve formatNumber : when there are decimals, use floor() or ceil() to get a more accurate
+                           rouding of the number
