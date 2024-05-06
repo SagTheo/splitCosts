@@ -60,7 +60,7 @@ function App() {
             if (!user1DebtToUser2.debtSet) {
               const user2DebtToUser1 = debt.owes.filter(el => el.id === user.id)[0]
               const totalUser2ExpensesSplit = formatNumber(user2.totalExpenses, allUsers.length)
-
+              
               if (totalUser1ExpensesSplit > totalUser2ExpensesSplit) {
                 user2DebtToUser1.amount = formatNumber(totalUser1ExpensesSplit - totalUser2ExpensesSplit)
                 user1DebtToUser2.amount = 0
@@ -150,18 +150,20 @@ function App() {
         }
       </div>
 
-      <div className='expenses'>
+      <div>
         <p className='title'>Expenses</p>
-        {
-          allExpenses.map((expense, index) => {
-            return (
-              <ExpenseItem key={index}
-                           expense={expense}
-                           deleteExpense={() => deleteExpense(expense.id, expense.userId, expense.expense)}
-              />
-            )
-          })
-        }
+        <div className='expenses'>
+          {
+            allExpenses.map((expense, index) => {
+              return (
+                <ExpenseItem key={index}
+                            expense={expense}
+                            deleteExpense={() => deleteExpense(expense.id, expense.userId, expense.expense)}
+                />
+              )
+            })
+          }
+        </div>
       </div>
         
       <span>Total: ${total}</span>
@@ -181,16 +183,18 @@ function App() {
 
       <div className='balance'>
         <p className='title'>Balance</p>
-        {
-          allDebts.map((debt, index) => {
-            return (
-              <DebtItem key={index}
-                        userInDebt={debt.userName}
-                        owes={debt.owes} 
-              />  
-            )
-          })
-        }
+        <div className='debtContainer'>
+          {
+            allDebts.map((debt, index) => {
+              return (
+                <DebtItem key={index}
+                          userInDebt={debt.userName}
+                          owes={debt.owes} 
+                />  
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   );
