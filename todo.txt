@@ -1,4 +1,2 @@
 --> improve formatNumber : when there are decimals, use floor() or ceil() to get a more accurate
                            rounding of the number
-
---> bug with updateDebt() -> when removing all expenses, debts are not properly reset

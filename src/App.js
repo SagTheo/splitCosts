@@ -48,36 +48,34 @@ function App() {
     })
 
     allUsers.forEach(user => {
-      if (user.totalExpenses > 0) {
-        const totalUser1ExpensesSplit = formatNumber(user.totalExpenses, allUsers.length)
-        const user1 = allDebts.filter(debt => debt.id === user.id)[0]
-        
-        allDebts.forEach(debt => {
-          if (debt.id !== user.id) {
-            const user2 = allUsers.filter(user => user.id === debt.id)[0]
-            const user1DebtToUser2 = user1.owes.filter(el => el.id === debt.id)[0]
+      const totalUser1ExpensesSplit = formatNumber(user.totalExpenses, allUsers.length)
+      const user1 = allDebts.filter(debt => debt.id === user.id)[0]
+      
+      allDebts.forEach(debt => {
+        if (debt.id !== user.id) {
+          const user2 = allUsers.filter(user => user.id === debt.id)[0]
+          const user1DebtToUser2 = user1.owes.filter(el => el.id === debt.id)[0]
 
-            if (!user1DebtToUser2.debtSet) {
-              const user2DebtToUser1 = debt.owes.filter(el => el.id === user.id)[0]
-              const totalUser2ExpensesSplit = formatNumber(user2.totalExpenses, allUsers.length)
-              
-              if (totalUser1ExpensesSplit > totalUser2ExpensesSplit) {
-                user2DebtToUser1.amount = formatNumber(totalUser1ExpensesSplit - totalUser2ExpensesSplit)
-                user1DebtToUser2.amount = 0
-              } else if (totalUser1ExpensesSplit < totalUser2ExpensesSplit) {
-                user1DebtToUser2.amount = formatNumber(totalUser2ExpensesSplit - totalUser1ExpensesSplit)
-                user2DebtToUser1.amount = 0
-              } else {
-                user1DebtToUser2.amount = 0
-                user2DebtToUser1.amount = 0
-              }
-
-              user1DebtToUser2.debtSet = true
-              user2DebtToUser1.debtSet = true
+          if (!user1DebtToUser2.debtSet) {
+            const user2DebtToUser1 = debt.owes.filter(el => el.id === user.id)[0]
+            const totalUser2ExpensesSplit = formatNumber(user2.totalExpenses, allUsers.length)
+            
+            if (totalUser1ExpensesSplit > totalUser2ExpensesSplit) {
+              user2DebtToUser1.amount = formatNumber(totalUser1ExpensesSplit - totalUser2ExpensesSplit)
+              user1DebtToUser2.amount = 0
+            } else if (totalUser1ExpensesSplit < totalUser2ExpensesSplit) {
+              user1DebtToUser2.amount = formatNumber(totalUser2ExpensesSplit - totalUser1ExpensesSplit)
+              user2DebtToUser1.amount = 0
+            } else {
+              user1DebtToUser2.amount = 0
+              user2DebtToUser1.amount = 0
             }
+
+            user1DebtToUser2.debtSet = true
+            user2DebtToUser1.debtSet = true
           }
-        })
-      } 
+        }
+      }) 
     })
   }
 
