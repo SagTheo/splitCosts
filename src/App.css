@@ -7,10 +7,15 @@
   font-weight: bold;
 }
 
+.globalTotal {
+  font-weight: bold;
+}
+
 .total {
   display: flex;
   gap: 20px;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .expenses {

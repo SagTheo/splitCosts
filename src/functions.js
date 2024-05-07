@@ -3,7 +3,10 @@ const formatName = name => {
 }
 
 const formatNumber = (nb, divisor = 1) => {
-    return Math.trunc((nb / divisor) * 100) / 100
+    let nbX10 = nb * 10
+    nbX10 = nbX10 / divisor
+    
+    return Math.trunc((nbX10 / 10) * 100) / 100
 }
 
 export { formatName, formatNumber }

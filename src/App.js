@@ -97,7 +97,7 @@ function App() {
 
       // Set global + individual totals
       user['totalExpenses'] += Number(expense)
-      setTotal(Number(expense) + total)
+      setTotal(formatNumber(Number(expense) + total))
 
       // Update debt for each user
       updateDebt()
@@ -112,7 +112,7 @@ function App() {
 
     // Set global + individual totals
     userTotalToUpdate['totalExpenses'] -= toTakeAway
-    setTotal(total - Number(toTakeAway))
+    setTotal(formatNumber(total - Number(toTakeAway)))
 
     // Update debt for each user
     updateDebt()
@@ -164,7 +164,7 @@ function App() {
         </div>
       </div>
         
-      <span>Total: ${total}</span>
+      <span className='globalTotal'>Total: ${total}</span>
 
       <div className='total'>
         {
